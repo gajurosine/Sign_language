@@ -22,8 +22,8 @@ This application detects and recognizes customers' faces, ensuring that the face
 
 1. **Clone the Repository**
     ```bash
-    git clone https://github.com/your-repository/face-sign-recognition.git
-    cd face-sign-recognition
+    git clone https://github.com/gajurosine/Sign_language.git
+    cd sign-recognition
     ```
 
 2. **Install Dependencies**
@@ -67,11 +67,13 @@ pip install tensorflow==2.12.0 keras==2.12.0 numpy
 ## File Structure
 
 ```
-face-sign-recognition/
+sign-recognition/
 │
 ├── models/
 │   ├── trained_lbph_face_recognizer_model.yml
 │   ├── haarcascade_frontalface_default.xml
+|   |---view_data.py 
+
 │
 ├── customer_faces_data.db
 ├── keras_Model.h5
