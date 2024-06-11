@@ -1,3 +1,5 @@
+Created by Nzambazamariya Rosine
+Embedded Specialist
 
 # Face and Sign Recognition System
 

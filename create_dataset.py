@@ -10,23 +10,41 @@ def generate_uid():
     current_seconds = current_millis // 1000
     return current_seconds
 
+def create_database():
+    conn = sqlite3.connect('customer_faces_data.db')
+    c = conn.cursor()
+
+    # Create table if it doesn't exist
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS customers (
+            customer_uid INTEGER PRIMARY KEY,
+            customer_name TEXT NOT NULL
+        )
+    ''')
+
+    # Optional: Insert some sample data
+    # c.execute('''
+    #     INSERT OR IGNORE INTO customers (customer_uid, customer_name) VALUES
+    #     (1, 'Alice'),
+    #     (2, 'Bob'),
+    #     (3, 'Charlie')
+    # ''')
+
+    # conn.commit()
+    # conn.close()
+
 # Initialize face cascade
 face_cascade = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')
 time.sleep(1)
+
+# Create database and table if they don't exist
+create_database()
 
 # Connect to SQLite database
 try:
     conn = sqlite3.connect('customer_faces_data.db')
     c = conn.cursor()
-    #print("Successfully connected to the database")
-except sqlite3.Error as e:
-    print("SQLite error:", e)
-
-# Create a table to store face data if it doesn't exist
-try:
-    c.execute('''CREATE TABLE IF NOT EXISTS customers
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_uid TEXT, customer_name TEXT,confirm DEFAULT 0)''')
-    #print("Table 'customers' created successfully")
+    print("Successfully connected to the database")
 except sqlite3.Error as e:
     print("SQLite error:", e)
 
@@ -122,12 +140,12 @@ if len(faces) > 0:
         # Display the video frame with rectangle
         cv2.imshow("Dataset Generating...", image)
 
-        # To stop taking video, press 'q' key or if image count reaches 100
-        if cv2.waitKey(1) & 0xFF == ord('q') or image_count >= 200:
+        # To stop taking video, press 'q' key or if image count reaches 10
+        if cv2.waitKey(1) & 0xFF == ord('q') or image_count >= 10:
             try:
                 c.execute("INSERT INTO customers (customer_uid, customer_name) VALUES (?, ?)", (customer_uid, customer_name))
                 conn.commit()
-                #print("Image inserted into database successfully")
+                print("Image inserted into database successfully")
             except sqlite3.Error as e:
                 print("SQLite error:", e)
             break
