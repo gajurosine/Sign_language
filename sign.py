@@ -18,20 +18,17 @@ while True:
     # Grab the webcamera's image.
     ret, image = camera.read()
 
-    # Resize the raw image into (224-height,224-width) pixels
-    image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
+    # Resize the raw image into (224-height, 224-width) pixels for the model input
+    resized_image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
-    # Show the image in a window
-    cv2.imshow("Webcam Image", image)
-
-    # Make the image a numpy array and reshape it to the models input shape.
-    image = np.asarray(image, dtype=np.float32).reshape(1, 224, 224, 3)
+    # Make the image a numpy array and reshape it to the model's input shape
+    image_array = np.asarray(resized_image, dtype=np.float32).reshape(1, 224, 224, 3)
 
     # Normalize the image array
-    image = (image / 127.5) - 1
+    image_array = (image_array / 127.5) - 1
 
-    # Predicts the model
-    prediction = model.predict(image)
+    # Predict using the model
+    prediction = model.predict(image_array)
     index = np.argmax(prediction)
     class_name = class_names[index]
     confidence_score = prediction[0][index]
@@ -39,6 +36,12 @@ while True:
     # Print prediction and confidence score
     print("Class:", class_name[2:], end="")
     print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+
+    # Resize the original image to a larger size for display
+    display_image = cv2.resize(image, (640, 480), interpolation=cv2.INTER_AREA)
+
+    # Show the larger image in a window
+    cv2.imshow("Webcam Image", display_image)
 
     # Listen to the keyboard for presses.
     keyboard_input = cv2.waitKey(1)

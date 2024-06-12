@@ -58,8 +58,8 @@ time.sleep(2)
 
 # Initialize the camera
 camera = cv2.VideoCapture(0)
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 420)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 340)
 
 # Initialize sample face image
 start_time = time.time()
@@ -141,7 +141,7 @@ if len(faces) > 0:
         cv2.imshow("Dataset Generating...", image)
 
         # To stop taking video, press 'q' key or if image count reaches 10
-        if cv2.waitKey(1) & 0xFF == ord('q') or image_count >= 10:
+        if cv2.waitKey(1) & 0xFF == ord('q') or image_count >= 100:
             try:
                 c.execute("INSERT INTO customers (customer_uid, customer_name) VALUES (?, ?)", (customer_uid, customer_name))
                 conn.commit()
