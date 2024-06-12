@@ -22,6 +22,10 @@ faceRectangleBorderSize = 2
 # Open a connection to the first webcam
 camera = cv2.VideoCapture(0)
 
+# Set frame width and height
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)  # Set width to 1280 pixels
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)  # Set height to 720 pixels
+
 # Connect to SQLite database
 try:
     conn = sqlite3.connect('customer_faces_data.db')
